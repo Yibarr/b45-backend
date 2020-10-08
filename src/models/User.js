@@ -32,6 +32,9 @@ const userSchema = new Schema({
     required: true,
     trim: true,
   },
+  posts: [{
+    type: mongoose.Types.ObjectId,
+  }],
 }, { timestamp: true })
 
 // eslint-disable-next-line consistent-return

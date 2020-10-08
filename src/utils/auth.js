@@ -10,9 +10,10 @@ export default {
         id,
         email,
         first_name,
-        exp: Math.floor(Date.now / 1000) + (60 * 60),
       }
-      const token = jwt.sign(payload, process.env.JWT_SECRET)
+      const token = jwt.sign(payload,
+        process.env.JWT_SECRET,
+        { expiresIn: '1h' })
       return token
     } catch (error) {
       return null
