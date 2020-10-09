@@ -4,9 +4,6 @@ const { celebrate, Joi, Segments } = celeb
 
 export default {
   create: celebrate({
-    [Segments.PARAMS]: Joi.object().keys({
-      idUser: Joi.string().required(),
-    }),
     [Segments.BODY]: Joi.object().keys({
       url_photo: Joi.string().required(),
       body: Joi.string(),
@@ -19,6 +16,11 @@ export default {
             }),
         ),
       permissions: Joi.string().valid('PRIVATE', 'PUBLIC'),
+    }),
+  }),
+  findOne: celebrate({
+    [Segments.PARAMS]: Joi.object().keys({
+      id: Joi.string().required(),
     }),
   }),
 }

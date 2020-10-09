@@ -6,4 +6,10 @@ export default {
     user.posts.push(_id)
     return user.save()
   },
+  deleteMany: (posts) => Post.deleteMany({
+    _id: {
+      $in: posts,
+    },
+  }),
+  findOneById: (id) => Post.findById(id),
 }

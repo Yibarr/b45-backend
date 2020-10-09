@@ -1,4 +1,4 @@
-import { UserService } from '../services/index.js'
+import { UserService, PostService } from '../services/index.js'
 import auth from '../utils/auth.js'
 
 export default {
@@ -38,13 +38,33 @@ export default {
   },
   updateOne: async (req, res, next) => {
     try {
-      const { id } = req.params
-      const { body } = req
-      const user = await UserService.findOneById(id)
+      const { body, decoded } = req
+      const user = await UserService.findOneById(decoded.id)
       if (!user) throw new Error('User not found')
       const modifiedUser = await UserService.updateOne(user, body)
       user.password = undefined
       res.status(200).json(modifiedUser)
+    } catch (error) {
+      next(error)
+    }
+  },
+  findOne: async (req, res, next) => {
+    try {
+      const { id } = req.params
+      const user = await UserService.findOneByIdPop(id)
+      if (!user) throw new Error('User not found')
+      user.password = undefined
+      res.status(200).json(user)
+    } catch (error) {
+      next(error)
+    }
+  },
+  deleteOne: async (req, res, next) => {
+    try {
+      const { decoded } = req
+      const deletedUser = await UserService.deleteOneById(decoded.id)
+      const deletedPosts = await PostService.deleteMany(deletedUser.posts)
+      res.status(200).json({ deletedUser, deletedPosts })
     } catch (error) {
       next(error)
     }
