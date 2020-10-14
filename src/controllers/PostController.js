@@ -7,7 +7,7 @@ export default {
         body,
         decoded,
       } = req
-      const user = await UserService.findOneById(decoded.id)
+      const user = await UserService.findOneByIdPop(decoded.id)
       const post = await PostService.create(body)
 
       const userWithPost = await PostService.addPost(user, post)
